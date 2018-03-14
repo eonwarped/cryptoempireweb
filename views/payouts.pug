@@ -1,0 +1,17 @@
+html
+  head
+    title Payouts
+  body
+    table
+      each val in values
+        tr
+          td
+            p #{val._id.day.year}/#{(""+val._id.day.month).padStart(2, "0")}/#{(""+val._id.day.day).padStart(2, "0")}
+          td
+            p= val._id.to
+          td
+            p= val._id.asset
+          td
+            p= val.total
+      else
+        p No data to display.
