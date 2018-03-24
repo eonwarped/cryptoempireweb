@@ -1,0 +1,16 @@
+html
+  head
+    title Dashboard
+  body
+    table
+      each val in values
+        tr
+          td
+            p= val.delegator
+          td
+            p= val.vesting_shares
+          td
+            p= parseFloat(100*val.percent_vests).toFixed(2)
+      else
+        p No data to display.
+    p Total: #{vestTotal}

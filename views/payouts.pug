@@ -5,8 +5,9 @@ html
     table
       each val in values
         tr
-          td
-            p #{val._id.day.year}/#{(""+val._id.day.month).padStart(2, "0")}/#{(""+val._id.day.day).padStart(2, "0")}
+          if val._id.day
+            td
+              p #{val._id.day.year}/#{(""+val._id.day.month).padStart(2, "0")}/#{(""+val._id.day.day).padStart(2, "0")}
           td
             p= val._id.to
           td
