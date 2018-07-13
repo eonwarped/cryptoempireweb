@@ -1,0 +1,16 @@
+html
+  head
+    title Posts
+  body
+    table
+      each val in values
+        tr
+          td
+            p= val.timestamp
+          td
+            p= val.tags
+          td
+            a(href="https://steemit.com/@" + val.author + "/" + val.permlink)= val.title
+      else
+        p No data to display.
+    p #{values.length} total posts.

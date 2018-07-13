@@ -10,7 +10,9 @@ html
           td
             p= val.vesting_shares
           td
-            p= parseFloat(100*val.percent_vests).toFixed(2)
+            p #{parseFloat(val.vesting_steem).toFixed(2)} SP
+          td
+            p #{parseFloat(100*val.percent_vests).toFixed(2)}%
       else
         p No data to display.
-    p Total: #{vestTotal}
+    p Totals: #{vestTotal} VESTS #{spTotal} SP

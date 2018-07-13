@@ -14,20 +14,25 @@ async function getTransactions(account, start) {
     result.reverse();
 
     result.forEach(function(trans) {
-      console.log(trans);
       var op = trans[1].op;
 
-      if(op[0] == 'delegate_vesting_shares' && op[1].delegatee == account)
+      if(op[0] == 'delegate_vesting_shares' && op[1].delegatee == account) {
+        console.log(trans);
         delegation_transactions.push({ id: trans[0], data: op[1] });
+      }
 
       // Save the ID of the last transaction that was processed.
       last_trans = trans[0];
     });
 
-    if(last_trans > 0 && last_trans != start)
+    if(last_trans > 0 && last_trans != start) {
       return await getTransactions(account, last_trans);
-    else
+    } else {
+      if (last_trans > 0) {
+        console.log('Missing account history.... last trans: ' + last_trans);
+      }
       return processDelegations();
+    }
   } catch (e) {
     console.log(e);
   }

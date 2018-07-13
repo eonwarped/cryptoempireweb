@@ -1,0 +1,27 @@
+html
+  head
+    title Bot Returns
+  body
+    table
+      each val in values
+        tr
+          td
+            p= val.created
+          td
+            p= val.permlink
+          td
+            p= val.botVoter
+          td
+            p= val.amountsFromBot
+          td
+            p= val.voteAgeMillis
+          td
+            p= val.authorPortionSbd
+          td
+            p= val.voteValue
+          td
+            p= val.authorVotePortion
+          td
+            p= val.authorCurationPortion
+      else
+        p No data to display.
