@@ -1,6 +1,7 @@
-const steem = require('steem');
+const dsteem = require('dsteem');
 
-const rpc_node = 'wss://steemd.privex.io';
+const rpc_node = 'https://gtg.steem.house:8090';
+const client = new dsteem.Client(rpc_node);
 
 function loadPosts(account, callback) {
   return getPosts(account, -1, [], new Set(), callback);
@@ -10,14 +11,9 @@ function getPosts(account, start, posts, visitedPermlinks, callback) {
   let last_trans = start;
 
   console.log(`Fetching account history for ${account} at ${start}`);
-  steem.api.setOptions({ transport: 'http', uri: rpc_node, url: rpc_node });
-  steem.api.getAccountHistory(account, start, (start < 0) ? 10000 : Math.min(start, 10000), (err, result) => {
+  client.database.call('get_account_history', [account, start, (start < 0) ? 10000 : Math.min(start, 10000)]).then((result) => {
     let hasError = false;
-    if (err) {
-      console.log('error');
-      console.log(err);
-      hasError = true;
-    }
+    
     if (!hasError) {
       result.reverse();
 
@@ -67,6 +63,24 @@ function getPosts(account, start, posts, visitedPermlinks, callback) {
       }
     }
 
+    if (hasError) {
+      // add indication that loading failed
+      posts.unshift({
+        author: account,
+        timestamp: 'Error while loading',
+        title: '',
+        permlink: '',
+        tags: '',
+      });
+    }
+    callback(posts.reverse());
+  }, (err) => {
+    let hasError = false;
+    if (err) {
+      console.log('error');
+      console.log(err);
+      hasError = true;
+    }
     if (hasError) {
       // add indication that loading failed
       posts.unshift({
