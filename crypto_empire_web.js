@@ -2,7 +2,6 @@ const express = require('express');
 const steem = require('steem');
 const app = express();
 const trans = require('./transfers');
-const posts = require('./posts');
 
 const port=3001;
 
@@ -28,17 +27,7 @@ app.get('/game/bots', async (req, res, next) => {
 });
 
 app.get('/game/posts', (req, res) => {
-  const account = req.query.account;
-  const tags = req.query.tags ? req.query.tags.split(',') : null;
-  posts.loadPosts(account, postData => {
-    if (tags) {
-      postData = postData.filter(elt => elt.tags && elt.tags.filter(t => tags.includes(t)).length > 0);
-    }
-
-    res.render('posts', {
-      values: postData,
-    });
-  });
+  res.redirect(`https://eonwarped.github.io/steem/allposts.html?account=${req.query.account}` + (req.query.tags ? `&tags=${req.query.tags}` : ''));
 });
 
 var server = app.listen(port, () => console.log('Routes running on port ' + port));
